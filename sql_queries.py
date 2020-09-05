@@ -63,7 +63,7 @@ staging_us_immigration_table_create = ("""CREATE TABLE IF NOT EXISTS staging_us_
     , travel_code INTEGER
     , state_code_residence VARCHAR(4)
     , departure_date DATE
-    , visa INTEGER
+    , visa_code INTEGER
     , birth_year INTEGER
     , gender VARCHAR(4)
     , airline VARCHAR(4)
@@ -155,7 +155,7 @@ us_immigration_table_create = ("""CREATE TABLE IF NOT EXISTS us_immigration (
     , travel_code INTEGER
     , state_code_residence VARCHAR(4)
     , departure_date DATE
-    , visa INTEGER
+    , visa_code INTEGER
     , birth_year INTEGER
     , gender VARCHAR(4)
     , airline VARCHAR(4)
@@ -300,7 +300,7 @@ us_immigration_table_insert = ("""
                     , travel_code
                     , state_code_residence
                     , departure_date
-                    , visa
+                    , visa_code
                     , birth_year
                     , gender
                     , airline
@@ -314,7 +314,7 @@ us_immigration_table_insert = ("""
                     , i.travel_code
                     , i.state_code_residence
                     , i.departure_date
-                    , i.visa
+                    , i.visa_code
                     , i.birth_year
                     , i.gender
                     , i.airline
