@@ -25,7 +25,7 @@ travel_code_table_drop = "DROP TABLE IF EXISTS travel_code"
 
 # purpose of staging tables: increase efficiency of ETL processes, ensure data integrity and support data quality operations
 # constraints should not be applied to the staging tables
-staging_airport_table_create= ("""CREATE TABLE staging_airport(
+staging_airport_table_create= ("""CREATE TABLE public.staging_airport(
       iata_code VARCHAR(3)
     , name VARCHAR(150)
     , iso_country VARCHAR(2)
@@ -39,7 +39,7 @@ staging_airport_table_create= ("""CREATE TABLE staging_airport(
 """)
 
 # order of columns and column names must match parquet file
-staging_us_demographics_table_create = ("""CREATE TABLE IF NOT EXISTS staging_us_demographics (
+staging_us_demographics_table_create = ("""CREATE TABLE IF NOT EXISTS public.staging_us_demographics (
       city VARCHAR(100)
     , state_name VARCHAR(25)
     , median_age NUMERIC
@@ -53,7 +53,7 @@ staging_us_demographics_table_create = ("""CREATE TABLE IF NOT EXISTS staging_us
 """)
 
 # order of columns and column names must match parquet file
-staging_us_immigration_table_create = ("""CREATE TABLE IF NOT EXISTS staging_us_immigration (
+staging_us_immigration_table_create = ("""CREATE TABLE IF NOT EXISTS public.staging_us_immigration (
       cicid NUMERIC
     , month INTEGER
     , city_code_origin INTEGER
@@ -71,21 +71,21 @@ staging_us_immigration_table_create = ("""CREATE TABLE IF NOT EXISTS staging_us_
 """)
 
 # order of columns and column names must match parquet file
-staging_country_code_table_create = ("""CREATE TABLE IF NOT EXISTS staging_country_code (
+staging_country_code_table_create = ("""CREATE TABLE IF NOT EXISTS public.staging_country_code (
       country_code INTEGER PRIMARY KEY
     , country_name VARCHAR(100)
     );
 """)
 
 # order of columns and column names must match parquet file
-staging_visa_code_table_create = ("""CREATE TABLE IF NOT EXISTS staging_visa_code (
+staging_visa_code_table_create = ("""CREATE TABLE IF NOT EXISTS public.staging_visa_code (
       visa_code INTEGER PRIMARY KEY
     , visa_name VARCHAR(10)
     );
 """)
 
 # order of columns and column names must match parquet file
-staging_travel_code_table_create = ("""CREATE TABLE IF NOT EXISTS staging_travel_code (
+staging_travel_code_table_create = ("""CREATE TABLE IF NOT EXISTS public.staging_travel_code (
       travel_code INTEGER PRIMARY KEY
     , travel_name VARCHAR(15)
     );
@@ -93,13 +93,13 @@ staging_travel_code_table_create = ("""CREATE TABLE IF NOT EXISTS staging_travel
 
 # If recent data is queried most frequently, specify the timestamp column as the leading column for the sort key
 # fact table can have only one distribution key
-us_states_table_create = ("""CREATE TABLE IF NOT EXISTS us_states (
+us_states_table_create = ("""CREATE TABLE IF NOT EXISTS public.us_states (
       state_code VARCHAR(4) PRIMARY KEY
     , state_name VARCHAR(25)
     );
 """)
 
-us_municipality_table_create = ("""CREATE TABLE IF NOT EXISTS us_municipality (
+us_municipality_table_create = ("""CREATE TABLE IF NOT EXISTS public.us_municipality (
       city VARCHAR(100)
     , state_code VARCHAR(4)
     , median_age NUMERIC
@@ -113,13 +113,13 @@ us_municipality_table_create = ("""CREATE TABLE IF NOT EXISTS us_municipality (
     );
 """)
 
-country_table_create = ("""CREATE TABLE IF NOT EXISTS country (
+country_table_create = ("""CREATE TABLE IF NOT EXISTS public.country (
       country_code INTEGER PRIMARY KEY
     , country_name VARCHAR(100)
     );
 """)
 
-airport_table_create = ("""CREATE TABLE IF NOT EXISTS airport (
+airport_table_create = ("""CREATE TABLE IF NOT EXISTS public.airport (
       iata_code VARCHAR(3) PRIMARY KEY
     , name VARCHAR(150)
     , iso_country VARCHAR(2)
@@ -133,19 +133,19 @@ airport_table_create = ("""CREATE TABLE IF NOT EXISTS airport (
     );
 """)
 
-visa_code_table_create = ("""CREATE TABLE IF NOT EXISTS visa_code (
+visa_code_table_create = ("""CREATE TABLE IF NOT EXISTS public.visa_code (
       visa_code INTEGER PRIMARY KEY
     , visa_name VARCHAR(10)
     );
 """)
 
-travel_code_table_create = ("""CREATE TABLE IF NOT EXISTS travel_code (
+travel_code_table_create = ("""CREATE TABLE IF NOT EXISTS public.travel_code (
       travel_code INTEGER PRIMARY KEY
     , travel_name VARCHAR(15)
     );
 """
 
-us_immigration_table_create = ("""CREATE TABLE IF NOT EXISTS us_immigration (
+us_immigration_table_create = ("""CREATE TABLE IF NOT EXISTS public.us_immigration (
       cicid BIGINT PRIMARY KEY
     , month INTEGER
     , city_code_origin INTEGER
