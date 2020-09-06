@@ -333,6 +333,17 @@ travel_code_table_insert = ("""
      WHERE t.travel_code IS NOT NULL
 """)
 
+#data qulity ckeck: count in tables
+us_immigration_count_check = '''SELECT COUNT(*) FROM us_immigration'''
+us_states_count_check = '''SELECT COUNT(*) FROM us_states'''
+us_municipality_count_check = '''SELECT COUNT(*) FROM us_municipality'''
+country_count_check = '''SELECT COUNT(*) FROM country'''
+airport_count_check = '''SELECT COUNT(*) FROM airport'''
+visa_code_count_check = '''SELECT COUNT(*) FROM visa_code'''
+travel_code_count_check = '''SELECT COUNT(*) FROM travel_code'''
+ 
+#null reference in foreign key als zweiten check?
+
 # QUERY LISTS
 #create us_immigration last since it contains references to other tables
 create_table_queries = [staging_airport_table_create, staging_us_demographics_table_create, staging_us_immigration_table_create, staging_country_code_table_create,staging_visa_code_table_create, staging_travel_code_table_create, us_states_table_create, us_municipality_table_create, country_table_create,airport_table_create, visa_code_table_create, travel_code_table_create, us_immigration_table_create]
@@ -344,3 +355,6 @@ copy_table_queries = [staging_airport_copy, staging_us_demographics_copy, stagin
 
 #insert us_immigration last since it contains references to other tables          
 insert_table_queries = [us_states_table_insert, us_municipality_table_insert, country_table_insert, airport_table_insert, visa_code_table_insert, travel_code_table_insert, us_immigration_table_insert]
+
+#ensure that load is complete
+data_quality_checks = [us_immigration_count_check, us_states_count_check, us_municipality_count_check, country_count_check, airport_count_check, visa_code_count_check, travel_code_count_check]
