@@ -334,10 +334,13 @@ travel_code_table_insert = ("""
 """)
 
 # QUERY LISTS
-#insert and drop us_immigration last since it contains references to other tables
-create_table_queries = [staging_airport_table_create, staging_us_demographics_table_create, staging_us_immigration_table_create, staging_country_code_table_create, staging_visa_code_table_create
-    , staging_travel_code_table_create, us_states_table_create, us_municipality_table_create, country_table_create, airport_table_create, visa_code_table_create, travel_code_table_create, us_immigration_table_create]
-drop_table_queries = [staging_airport_table_drop, staging_us_demographics_table_drop, staging_us_immigration_table_drop, staging_country_code_table_drop, staging_visa_code_table_drop, staging_travel_code_table_drop
-    , us_states_table_drop, us_states_table_drop, us_municipality_table_drop, country_table_drop, airport_table_drop, visa_code_table_drop, us_immigration_table_drop, travel_code_table_drop]
+#create us_immigration last since it contains references to other tables
+create_table_queries = [staging_airport_table_create, staging_us_demographics_table_create, staging_us_immigration_table_create, staging_country_code_table_create,staging_visa_code_table_create, staging_travel_code_table_create, us_states_table_create, us_municipality_table_create, country_table_create,airport_table_create, visa_code_table_create, travel_code_table_create, us_immigration_table_create]
+
+#drop us_immigration first since it contains references to other tables
+drop_table_queries = [staging_airport_table_drop, staging_us_demographics_table_drop, staging_us_immigration_table_drop, staging_country_code_table_drop, staging_visa_code_table_drop, staging_travel_code_table_drop, us_immigration_table_drop, us_municipality_table_drop, country_table_drop, airport_table_drop, visa_code_table_drop, travel_code_table_drop, us_states_table_drop]
+                            
 copy_table_queries = [staging_airport_copy, staging_us_demographics_copy, staging_us_immigration_copy, staging_country_code_copy, staging_visa_code_copy, staging_travel_code_copy]
+
+#insert us_immigration last since it contains references to other tables          
 insert_table_queries = [us_states_table_insert, us_municipality_table_insert, country_table_insert, airport_table_insert, visa_code_table_insert, travel_code_table_insert, us_immigration_table_insert]
