@@ -1,0 +1,72 @@
+//// -- LEVEL 1
+//// -- Tables and References
+
+// Creating tables
+Table us_states as S {
+  state_code varchar(4) [pk]
+  state_name VARCHAR(25)
+}
+
+Table us_municipality as M{
+  city VARCHAR(100) [pk]
+  state_code VARCHAR(4)
+  median_age DOUBLE
+  male_population DOUBLE
+  female_population DOUBLE
+  total_population DOUBLE
+  foreign_born DOUBLE
+  avg_household_size DOUBLE
+  
+ }
+
+ Table country as C {
+  country_code BIGINT [pk]
+  country_name VARCHAR(100)
+}
+
+ Table airport as A {
+  iata_code VARCHAR(3) [pk]
+  name VARCHAR(150)
+  iso_country VARCHAR(2)
+  iso_region VARCHAR(5)
+  municipality VARCHAR(50)
+  type VARCHAR(30)
+  state_code VARCHAR(2)
+  latitude DOUBLE
+  longitude DOUBLE
+  
+}
+
+ Table visa_code as V {
+  visa_code BIGINT [pk]
+  visa_name VARCHAR(10)
+}
+
+ Table travel_code as T {
+  travel_code BIGINT [pk]
+  travel_name VARCHAR(15)
+}
+
+ Table us_immigration as I {
+  cicid BIGINT [pk]
+  year BIGINT
+  month BIGINT
+  city_code_origin BIGINT
+  country_code_residence BIGINT
+  city_code_destination VARCHAR(3)
+  arrival_date DATE
+  travel_code BIGINT
+  state_code_residence VARCHAR(4)
+  departure_date DATE
+  visa_code BIGINT
+  birth_year BIGINT
+  gender VARCHAR(4)
+  airline VARCHAR(4)
+}
+  Ref: M.state_code > S.state_code
+  Ref: A.state_code > S.state_code
+  Ref: I.state_code_residence > S.state_code
+  Ref: I.country_code_residence > C.country_code
+  Ref: I.city_code_destination > A.iata_code
+  Ref: I.travel_code > T.travel_code
+  Ref: I.visa_code > V.visa_code
