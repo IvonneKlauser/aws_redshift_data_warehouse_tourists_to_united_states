@@ -25,7 +25,7 @@ travel_code_table_drop = "DROP TABLE IF EXISTS travel_code"
 
 # purpose of staging tables: increase efficiency of ETL processes, ensure data integrity and support data quality operations
 # constraints should not be applied to the staging tables
-staging_airport_table_create= ("""CREATE TABLE public.staging_airport(
+staging_airport_table_create = ("""CREATE TABLE public.staging_airport(
       iata_code VARCHAR(3)
     , name VARCHAR(150)
     , iso_country VARCHAR(2)
@@ -33,8 +33,8 @@ staging_airport_table_create= ("""CREATE TABLE public.staging_airport(
     , municipality VARCHAR(50)
     , type VARCHAR(30)
     , state_code VARCHAR(2)
-    , latitude NUMERIC
-    , longitude NUMERIC
+    , latitude DOUBLE PRECISION
+    , longitude DOUBLE PRECISION
     );
 """)
 
@@ -42,29 +42,30 @@ staging_airport_table_create= ("""CREATE TABLE public.staging_airport(
 staging_us_demographics_table_create = ("""CREATE TABLE IF NOT EXISTS public.staging_us_demographics (
       city VARCHAR(100)
     , state_name VARCHAR(25)
-    , median_age NUMERIC
-    , male_population NUMERIC
-    , female_population NUMERIC
-    , total_population NUMERIC
-    , foreign_born NUMERIC
-    , avg_household_size NUMERIC
+    , median_age DOUBLE PRECISION
+    , male_population DOUBLE PRECISION
+    , female_population DOUBLE PRECISION
+    , total_population DOUBLE PRECISION
+    , foreign_born DOUBLE PRECISION
+    , avg_household_size DOUBLE PRECISION
     , state_code VARCHAR(4)
     );
 """)
 
 # order of columns and column names must match parquet file
 staging_us_immigration_table_create = ("""CREATE TABLE IF NOT EXISTS public.staging_us_immigration (
-      cicid NUMERIC
-    , month INTEGER
-    , city_code_origin INTEGER
-    , country_code_residence INTEGER
-    , city_code_destination VARCHAR(3)
+      cicid DOUBLE PRECISION
+    , year BIGINT
+    , month BIGINT
+    , city_code_origin BIGINT
+    , country_code_residence BIGINT
+    , city_code_destination VARCHAR(4)
     , arrival_date DATE
-    , travel_code INTEGER
+    , travel_code BIGINT
     , state_code_residence VARCHAR(4)
     , departure_date DATE
-    , visa_code INTEGER
-    , birth_year INTEGER
+    , visa_code BIGINT
+    , birth_year BIGINT
     , gender VARCHAR(4)
     , airline VARCHAR(4)
     );
@@ -72,21 +73,21 @@ staging_us_immigration_table_create = ("""CREATE TABLE IF NOT EXISTS public.stag
 
 # order of columns and column names must match parquet file
 staging_country_code_table_create = ("""CREATE TABLE IF NOT EXISTS public.staging_country_code (
-      country_code INTEGER PRIMARY KEY
+      country_code BIGINT
     , country_name VARCHAR(100)
     );
 """)
 
 # order of columns and column names must match parquet file
 staging_visa_code_table_create = ("""CREATE TABLE IF NOT EXISTS public.staging_visa_code (
-      visa_code INTEGER PRIMARY KEY
+      visa_code BIGINT
     , visa_name VARCHAR(10)
     );
 """)
 
 # order of columns and column names must match parquet file
 staging_travel_code_table_create = ("""CREATE TABLE IF NOT EXISTS public.staging_travel_code (
-      travel_code INTEGER PRIMARY KEY
+      travel_code BIGINT
     , travel_name VARCHAR(15)
     );
 """)
@@ -102,19 +103,19 @@ us_states_table_create = ("""CREATE TABLE IF NOT EXISTS public.us_states (
 us_municipality_table_create = ("""CREATE TABLE IF NOT EXISTS public.us_municipality (
       city VARCHAR(100)
     , state_code VARCHAR(4)
-    , median_age NUMERIC
-    , male_population NUMERIC
-    , female_population NUMERIC
-    , total_population NUMERIC
-    , foreign_born NUMERIC
-    , avg_household_size NUMERIC
+    , median_age DOUBLE PRECISION
+    , male_population DOUBLE PRECISION
+    , female_population DOUBLE PRECISION
+    , total_population DOUBLE PRECISION
+    , foreign_born DOUBLE PRECISION
+    , avg_household_size DOUBLE PRECISION
     , PRIMARY KEY (city, state_code)
     , FOREIGN KEY (state_code) REFERENCES us_states(state_code) 
     );
 """)
 
 country_table_create = ("""CREATE TABLE IF NOT EXISTS public.country (
-      country_code INTEGER PRIMARY KEY
+      country_code BIGINT PRIMARY KEY
     , country_name VARCHAR(100)
     );
 """)
@@ -127,42 +128,44 @@ airport_table_create = ("""CREATE TABLE IF NOT EXISTS public.airport (
     , municipality VARCHAR(50)
     , type VARCHAR(30)
     , state_code VARCHAR(2)
-    , latitude NUMERIC
-    , longitude NUMERIC
+    , latitude DOUBLE PRECISION
+    , longitude DOUBLE PRECISION
     , FOREIGN KEY (state_code) REFERENCES us_states(state_code) 
     );
 """)
 
 visa_code_table_create = ("""CREATE TABLE IF NOT EXISTS public.visa_code (
-      visa_code INTEGER PRIMARY KEY
+      visa_code BIGINT PRIMARY KEY
     , visa_name VARCHAR(10)
     );
 """)
 
 travel_code_table_create = ("""CREATE TABLE IF NOT EXISTS public.travel_code (
-      travel_code INTEGER PRIMARY KEY
+      travel_code BIGINT PRIMARY KEY
     , travel_name VARCHAR(15)
     );
-"""
+""")
 
 us_immigration_table_create = ("""CREATE TABLE IF NOT EXISTS public.us_immigration (
       cicid BIGINT PRIMARY KEY
-    , month INTEGER
-    , city_code_origin INTEGER
-    , country_code_residence INTEGER
+    , year BIGINT
+    , month BIGINT
+    , city_code_origin BIGINT
+    , country_code_residence BIGINT
     , city_code_destination VARCHAR(3)
     , arrival_date DATE
-    , travel_code INTEGER
+    , travel_code BIGINT
     , state_code_residence VARCHAR(4)
     , departure_date DATE
-    , visa_code INTEGER
-    , birth_year INTEGER
+    , visa_code BIGINT
+    , birth_year BIGINT
     , gender VARCHAR(4)
     , airline VARCHAR(4)
     , FOREIGN KEY (state_code_residence) REFERENCES us_states(state_code) 
     , FOREIGN KEY (country_code_residence) REFERENCES country(country_code) 
     , FOREIGN KEY (city_code_destination) REFERENCES airport(iata_code) 
     , FOREIGN KEY (travel_code) REFERENCES travel_code(travel_code) 
+    , FOREIGN KEY (visa_code) REFERENCES visa_code(visa_code) 
     );
 """)
 
@@ -180,31 +183,31 @@ staging_us_demographics_copy = ("""
                         COPY staging_us_demographics 
                         FROM {}
                         iam_role {}
-                        FORMAT AS PARQUET""").format(config['S3_redshift']['us_demographics'],config['IAM_ROLE']['ARN'])
+                        FORMAT AS PARQUET;""").format(config['S3_redshift']['us_demographics'],config['IAM_ROLE']['ARN'])
 
 staging_us_immigration_copy = ("""
                         COPY staging_us_immigration 
                         FROM {}
                         iam_role {}
-                        FORMAT AS PARQUET""").format(config['S3_redshift']['us_immigration'],config['IAM_ROLE']['ARN'])
+                        FORMAT AS PARQUET;""").format(config['S3_redshift']['us_immigration'],config['IAM_ROLE']['ARN'])
 
 staging_country_code_copy = ("""
                         COPY staging_country_code
                         FROM {}
                         iam_role {}
-                        FORMAT AS PARQUET""").format(config['S3_redshift']['country_code'],config['IAM_ROLE']['ARN'])
+                        FORMAT AS PARQUET;""").format(config['S3_redshift']['country_code'],config['IAM_ROLE']['ARN'])
 
 staging_visa_code_copy = ("""
                         COPY staging_visa_code
                         FROM {}
                         iam_role {}
-                        FORMAT AS PARQUET""").format(config['S3_redshift']['visa_code'],config['IAM_ROLE']['ARN'])
+                        FORMAT AS PARQUET;""").format(config['S3_redshift']['visa_code'],config['IAM_ROLE']['ARN'])
 
 staging_travel_code_copy = ("""
                         COPY staging_travel_code
                         FROM {}
                         iam_role {}
-                        FORMAT AS PARQUET""").format(config['S3_redshift']['travel_code'],config['IAM_ROLE']['ARN'])
+                        FORMAT AS PARQUET;""").format(config['S3_redshift']['travel_code'],config['IAM_ROLE']['ARN'])
 
 # FINAL TABLES
 # UNIQUE is not enforced on tables by Amazon Redshift, hence ensure unique values with select distinct
@@ -332,7 +335,7 @@ travel_code_table_insert = ("""
      FROM staging_travel_code t
      WHERE t.travel_code IS NOT NULL
 """)
-
+                            
 #data qulity ckeck: count in tables
 us_immigration_count_check = '''SELECT COUNT(*) FROM us_immigration'''
 us_states_count_check = '''SELECT COUNT(*) FROM us_states'''
@@ -342,19 +345,34 @@ airport_count_check = '''SELECT COUNT(*) FROM airport'''
 visa_code_count_check = '''SELECT COUNT(*) FROM visa_code'''
 travel_code_count_check = '''SELECT COUNT(*) FROM travel_code'''
  
-#null reference in foreign key als zweiten check?
-
+#data qulity ckeck: null reference in foreign key
+#references us_states
+us_immigration_state_code_residence_null_reference_check = '''SELECT COUNT(*) FROM us_immigration WHERE state_code_residence is null'''
+#references airport
+us_immigration_city_code_destination_null_reference_check = '''SELECT COUNT(*) FROM us_immigration WHERE city_code_destination is null'''
+#references country
+us_immigration_country_code_residence_null_reference_check = '''SELECT COUNT(*) FROM us_immigration WHERE country_code_residence is null'''
+#references travel_code
+us_immigration_travel_code_null_reference_check = '''SELECT COUNT(*) FROM us_immigration WHERE travel_code is null'''
+#references visa_code
+us_immigration_visa_code_null_reference_check = '''SELECT COUNT(*) FROM us_immigration WHERE visa_code is null'''
+#references state_code
+airport_state_code_null_reference_check = '''SELECT COUNT(*) FROM airport WHERE state_code is null'''
+                            
 # QUERY LISTS
 #create us_immigration last since it contains references to other tables
-create_table_queries = [staging_airport_table_create, staging_us_demographics_table_create, staging_us_immigration_table_create, staging_country_code_table_create,staging_visa_code_table_create, staging_travel_code_table_create, us_states_table_create, us_municipality_table_create, country_table_create,airport_table_create, visa_code_table_create, travel_code_table_create, us_immigration_table_create]
+create_table_queries = [staging_airport_table_create, staging_us_demographics_table_create, staging_us_immigration_table_create, staging_country_code_table_create,staging_visa_code_table_create, staging_travel_code_table_create, us_states_table_create, us_municipality_table_create, country_table_create, airport_table_create, visa_code_table_create, travel_code_table_create, us_immigration_table_create]
 
 #drop us_immigration first since it contains references to other tables
 drop_table_queries = [staging_airport_table_drop, staging_us_demographics_table_drop, staging_us_immigration_table_drop, staging_country_code_table_drop, staging_visa_code_table_drop, staging_travel_code_table_drop, us_immigration_table_drop, us_municipality_table_drop, country_table_drop, airport_table_drop, visa_code_table_drop, travel_code_table_drop, us_states_table_drop]
                             
-copy_table_queries = [staging_airport_copy, staging_us_demographics_copy, staging_us_immigration_copy, staging_country_code_copy, staging_visa_code_copy, staging_travel_code_copy]
+copy_table_queries = [staging_airport_copy, staging_us_demographics_copy, staging_country_code_copy, staging_visa_code_copy, staging_travel_code_copy, staging_us_immigration_copy]
 
-#insert us_immigration last since it contains references to other tables          
+#insert us_immigration last since it contains references to other tables  
 insert_table_queries = [us_states_table_insert, us_municipality_table_insert, country_table_insert, airport_table_insert, visa_code_table_insert, travel_code_table_insert, us_immigration_table_insert]
 
 #ensure that load is complete
-data_quality_checks = [us_immigration_count_check, us_states_count_check, us_municipality_count_check, country_count_check, airport_count_check, visa_code_count_check, travel_code_count_check]
+data_quality_count_check = [us_immigration_count_check, us_states_count_check, us_municipality_count_check, country_count_check, airport_count_check, visa_code_count_check, travel_code_count_check]
+                            
+#data quality check if there are null references
+data_quality_null_references_check = [us_immigration_state_code_residence_null_reference_check, us_immigration_city_code_destination_null_reference_check, us_immigration_country_code_residence_null_reference_check, us_immigration_travel_code_null_reference_check, us_immigration_visa_code_null_reference_check, airport_state_code_null_reference_check]
