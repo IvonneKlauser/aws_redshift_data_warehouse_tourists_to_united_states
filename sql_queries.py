@@ -95,14 +95,14 @@ staging_travel_code_table_create = ("""CREATE TABLE IF NOT EXISTS public.staging
 # If recent data is queried most frequently, specify the timestamp column as the leading column for the sort key
 # fact table can have only one distribution key
 us_states_table_create = ("""CREATE TABLE IF NOT EXISTS public.us_states (
-      state_code VARCHAR(4) PRIMARY KEY
+      state_code VARCHAR(4) PRIMARY KEY DISTKEY SORTKEY
     , state_name VARCHAR(25)
     );
 """)
 
 us_municipality_table_create = ("""CREATE TABLE IF NOT EXISTS public.us_municipality (
       city VARCHAR(100)
-    , state_code VARCHAR(4)
+    , state_code VARCHAR(4) NOT NULL DISTKEY SORTKEY
     , median_age DOUBLE PRECISION
     , male_population DOUBLE PRECISION
     , female_population DOUBLE PRECISION
@@ -115,19 +115,19 @@ us_municipality_table_create = ("""CREATE TABLE IF NOT EXISTS public.us_municipa
 """)
 
 country_table_create = ("""CREATE TABLE IF NOT EXISTS public.country (
-      country_code BIGINT PRIMARY KEY
+      country_code BIGINT PRIMARY KEY DISTKEY
     , country_name VARCHAR(100)
     );
 """)
 
 airport_table_create = ("""CREATE TABLE IF NOT EXISTS public.airport (
-      iata_code VARCHAR(3) PRIMARY KEY
+      iata_code VARCHAR(3) PRIMARY KEY DISTKEY
     , name VARCHAR(150)
     , iso_country VARCHAR(2)
     , iso_region VARCHAR(5)
     , municipality VARCHAR(50)
     , type VARCHAR(30)
-    , state_code VARCHAR(2)
+    , state_code VARCHAR(2) NOT NULL SORTKEY
     , latitude DOUBLE PRECISION
     , longitude DOUBLE PRECISION
     , FOREIGN KEY (state_code) REFERENCES us_states(state_code) 
@@ -135,13 +135,13 @@ airport_table_create = ("""CREATE TABLE IF NOT EXISTS public.airport (
 """)
 
 visa_code_table_create = ("""CREATE TABLE IF NOT EXISTS public.visa_code (
-      visa_code BIGINT PRIMARY KEY
+      visa_code BIGINT PRIMARY KEY DISTKEY
     , visa_name VARCHAR(10)
     );
 """)
 
 travel_code_table_create = ("""CREATE TABLE IF NOT EXISTS public.travel_code (
-      travel_code BIGINT PRIMARY KEY
+      travel_code BIGINT PRIMARY KEY DISTKEY
     , travel_name VARCHAR(15)
     );
 """)
@@ -151,13 +151,13 @@ us_immigration_table_create = ("""CREATE TABLE IF NOT EXISTS public.us_immigrati
     , year BIGINT
     , month BIGINT
     , city_code_origin BIGINT
-    , country_code_residence BIGINT
-    , city_code_destination VARCHAR(3)
+    , country_code_residence BIGINT NOT NULL
+    , city_code_destination VARCHAR(3) NOT NULL
     , arrival_date DATE
-    , travel_code BIGINT
-    , state_code_residence VARCHAR(4)
+    , travel_code BIGINT NOT NULL
+    , state_code_residence VARCHAR(4) NOT NULL DISTKEY SORTKEY
     , departure_date DATE
-    , visa_code BIGINT
+    , visa_code BIGINT NOT NULL
     , birth_year BIGINT
     , gender VARCHAR(4)
     , airline VARCHAR(4)
