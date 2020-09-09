@@ -1,0 +1,3 @@
+﻿Field Name,Data Type,Description,Contraints,Example
+country_code,BIGINT,,PRIMARY KEY,581
+country_name ,VARCHAR(100),,,Belize

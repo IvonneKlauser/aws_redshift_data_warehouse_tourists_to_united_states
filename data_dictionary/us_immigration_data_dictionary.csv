@@ -1,0 +1,15 @@
+﻿Field Name,Data Type,Description,Contraints,Example,Origin
+cicid,BIGINT,Unique id for US immigrant,Primary Key (informational),4084316,I94 Immigration Data
+year,BIGINT,Year of arrival of visitor,,2019,I94 Immigration Data
+month,BIGINT,Month of arrival of visitor,,4,I94 Immigration Data
+city_code_origin,BIGINT,Country code of citizenship,,209,I94 Immigration Data
+country_code_residence,BIGINT,Country code of residence,,209,I94 Immigration Data
+city_code_destination,VARCHAR(3),Port the visitor arrived in,NOT NULL,HHW,I94 Immigration Data
+arrival_date,DATE,The date the person arrived into the US,,4/1/2016,I94 Immigration Data
+travel_code,BIGINT,The mode the visitor used toget to the US,NOT NULL,1,I94 Immigration Data
+state_code_residence,VARCHAR(4),State the visitor resides in,,HI,I94 Immigration Data
+departure_date,DATE,The date the person has to leave the US,,4/1/2016,I94 Immigration Data
+visa_code,BIGINT,Visa type the visitor holds,NOT NULL,1,I94 Immigration Data
+birth_year,BIGINT,,,1966,I94 Immigration Data
+gender,VARCHAR(4),Gender of the visitor,,F,I94 Immigration Data
+airline,VARCHAR(4),The airline the visitor used to get to the U.S.,,LH,I94 Immigration Data

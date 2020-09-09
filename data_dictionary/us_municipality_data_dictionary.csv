@@ -1,0 +1,9 @@
+﻿Field Name,Data Type,Description,Contraints,Example,Origin
+city ,VARCHAR(100),City or municipality,PRIMARY KEY,Abilene,US city demographics dataset
+state_code,VARCHAR(4),State code of U.S.,PRIMARY KEY NOT NULL,TX,US city demographics dataset
+median_age ,DOUBLE,Median age of residents in city,,31.3,US city demographics dataset
+male_population,DOUBLE,Number of male residents of city,,65212,US city demographics dataset
+female_population ,DOUBLE,Number of female residents of city,,60664,US city demographics dataset
+total_population ,DOUBLE,Total number of residents of city,,125876,US city demographics dataset
+foreign_born ,DOUBLE,Number of foreign-born residents of city,,8129,US city demographics dataset
+avg_household_size ,DOUBLE,Average household size of city,,2.64,US city demographics dataset

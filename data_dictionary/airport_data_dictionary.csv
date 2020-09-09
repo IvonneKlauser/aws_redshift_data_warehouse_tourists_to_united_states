@@ -1,0 +1,10 @@
+﻿Field Name,Data Type,Description,Contraints,Example,Origin
+iata_code,VARCHAR(3),IATA code of airport,PRIMARY KEY,BSW,Airport dataset
+name ,VARCHAR(150),Airport name,,Boswell Bay Airport,Airport dataset
+iso_country ,VARCHAR(2),Country the airport is located in,,US,Airport dataset
+iso_region ,VARCHAR(5),Country and region the airport is located in,,US-AK,Airport dataset
+municipality ,VARCHAR(50),City the airport is located in,,Boswell Bay,Airport dataset
+type ,VARCHAR(30),Airport type,,small_airport,Airport dataset
+state_code ,VARCHAR(2),Code of U.S. state the airport is in,NOT NULL,AK,Airport dataset
+latitude ,DOUBLE,Latitude of airport,,-146.1459961,Airport dataset
+longitude,DOUBLE,Longitude of airport,,60.42309952,Airport dataset

@@ -1,0 +1,3 @@
+﻿Field Name,Data Type,Description,Contraints,Example,Origin
+travel_code,BIGINT,Travel code,PRIMARY KEY,1,I94 Immigration Data - I94_SAS_Labels_Descriptions.SAS
+travel_name ,VARCHAR(10),Name of travel mode,,Air,I94 Immigration Data - I94_SAS_Labels_Descriptions.SAS

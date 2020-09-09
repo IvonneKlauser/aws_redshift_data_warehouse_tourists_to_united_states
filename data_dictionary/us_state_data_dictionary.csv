@@ -1,0 +1,3 @@
+﻿Field Name,Data Type,Description,Contraints,Example,Origin
+state_code,VARCHAR(4),Identifier of U.S. state,PRIMARY KEY,TX,US city demographics dataset
+ state_name ,VARCHAR(25),Name of U.S. state,,Texax,US city demographics dataset

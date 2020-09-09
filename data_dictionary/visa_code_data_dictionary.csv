@@ -1,0 +1,3 @@
+﻿Field Name,Data Type,Description,Contraints,Example,Origin
+visa_code,BIGINT,Visa code,PRIMARY KEY,1,I94 Immigration Data - I94_SAS_Labels_Descriptions.SAS
+visa_name ,VARCHAR(10),Visa name,,Business,I94 Immigration Data - I94_SAS_Labels_Descriptions.SAS
