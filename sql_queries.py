@@ -155,13 +155,13 @@ us_immigration_table_create = ("""CREATE TABLE IF NOT EXISTS public.us_immigrati
     , city_code_destination VARCHAR(3) NOT NULL
     , arrival_date DATE
     , travel_code BIGINT NOT NULL
-    , state_code_residence VARCHAR(4) NOT NULL DISTKEY SORTKEY
+    , state_code_residence VARCHAR(4) DISTKEY SORTKEY
     , departure_date DATE
     , visa_code BIGINT NOT NULL
     , birth_year BIGINT
     , gender VARCHAR(4)
     , airline VARCHAR(4)
-    , FOREIGN KEY (state_code_residence) REFERENCES us_states(state_code) 
+    , FOREIGN KEY (state_code_residence) REFERENCES us_states(state_code)
     , FOREIGN KEY (country_code_residence) REFERENCES country(country_code) 
     , FOREIGN KEY (city_code_destination) REFERENCES airport(iata_code) 
     , FOREIGN KEY (travel_code) REFERENCES travel_code(travel_code) 
@@ -314,7 +314,7 @@ us_immigration_table_insert = ("""
                     , i.country_code_residence
                     , i.city_code_destination
                     , i.arrival_date
-                    , i.travel_code
+                    , CASE WHEN i.travel_code is null THEN 9 ELSE i.travel_code END
                     , i.state_code_residence
                     , i.departure_date
                     , i.visa_code
